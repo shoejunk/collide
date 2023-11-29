@@ -1,0 +1,3 @@
+Use snake case.
+Use a c_ in front of classes.
+Use a m_ in front of member variables.
