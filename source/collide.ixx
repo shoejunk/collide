@@ -43,7 +43,7 @@ namespace stk
 
 		bool get(c_vec2i pos) const
 		{
-			return get(pos.x, pos.y);
+			return get(pos.x(), pos.y());
 		}
 
 	private:
