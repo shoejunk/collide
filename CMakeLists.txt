@@ -1,11 +1,11 @@
-# template
+# collide
 
 cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
 # ---- Project ----
 
 project(
-	template
+	collide
 	VERSION 0.1.0
 	LANGUAGES CXX)
 
@@ -25,6 +25,26 @@ include(${CPM_DOWNLOAD_LOCATION})
 # PackageProject.cmake will be used to make our target installable
 CPMAddPackage("gh:TheLartians/PackageProject.cmake@1.8.0")
 
+CPMAddPackage(
+	NAME sfml
+	GIT_TAG 2.5.1
+	GITHUB_REPOSITORY SFML/SFML
+	OPTIONS
+		"BUILD_SHARED_LIBS NO" # This tells CMake to build static libraries
+		"SFML_USE_STATIC_STD_LIBS YES" # This links SFML against the static runtime
+		"SFML_BUILD_AUDIO NO"
+		"SFML_BUILD_NETWORK NO"
+		"SFML_BUILD_GRAPHICS YES"
+		"SFML_BUILD_WINDOW YES"
+)
+
+# Add package: shoejunk/math
+CPMAddPackage(
+	NAME math
+	GITHUB_REPOSITORY shoejunk/math
+	VERSION 4.6.0
+)
+
 # ---- Add source files ----
 file(GLOB_RECURSE sources CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.ixx")
 
@@ -42,6 +62,8 @@ target_include_directories(
   ${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
                          $<INSTALL_INTERFACE:include/${PROJECT_NAME}-${PROJECT_VERSION}>
 )
+
+target_link_libraries(${PROJECT_NAME} sfml-graphics sfml-window math)
 
 # the location where the project's version header will be placed should match the project's regular
 # header paths
