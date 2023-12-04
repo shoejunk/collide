@@ -21,6 +21,26 @@ CPMAddPackage(
   OPTIONS "CXXOPTS_BUILD_EXAMPLES NO" "CXXOPTS_BUILD_TESTS NO" "CXXOPTS_ENABLE_INSTALL YES"
 )
 
+CPMAddPackage(
+	NAME sfml
+	GIT_TAG 2.5.1
+	GITHUB_REPOSITORY SFML/SFML
+	OPTIONS
+		"BUILD_SHARED_LIBS NO" # This tells CMake to build static libraries
+		"SFML_USE_STATIC_STD_LIBS YES" # This links SFML against the static runtime
+		"SFML_BUILD_AUDIO NO"
+		"SFML_BUILD_NETWORK NO"
+		"SFML_BUILD_GRAPHICS YES"
+		"SFML_BUILD_WINDOW YES"
+)
+
+# Add package: shoejunk/sprite
+CPMAddPackage(
+	NAME sprite
+	GITHUB_REPOSITORY shoejunk/sprite
+	VERSION 0.1.2
+)
+
 CPMAddPackage(NAME collide SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/..)
 
 # ---- Create standalone executable ----
@@ -31,4 +51,4 @@ add_executable(${PROJECT_NAME} ${sources})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 23 OUTPUT_NAME "collide")
 
-target_link_libraries(${PROJECT_NAME} collide cxxopts)
+target_link_libraries(${PROJECT_NAME} collide cxxopts sfml-graphics sfml-window sprite)
