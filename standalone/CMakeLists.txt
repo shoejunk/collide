@@ -38,7 +38,14 @@ CPMAddPackage(
 CPMAddPackage(
 	NAME sprite
 	GITHUB_REPOSITORY shoejunk/sprite
-	VERSION 0.1.2
+	VERSION 0.2.0
+)
+
+# Add package: shoejunk/log
+CPMAddPackage(
+	NAME log
+	GITHUB_REPOSITORY shoejunk/log
+	VERSION 1.3.0
 )
 
 CPMAddPackage(NAME collide SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/..)
@@ -51,4 +58,5 @@ add_executable(${PROJECT_NAME} ${sources})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 23 OUTPUT_NAME "collide")
 
-target_link_libraries(${PROJECT_NAME} collide cxxopts sfml-graphics sfml-window sprite)
+target_link_libraries(${PROJECT_NAME} collide cxxopts sfml-graphics sfml-window sprite log)
+file(COPY data DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
