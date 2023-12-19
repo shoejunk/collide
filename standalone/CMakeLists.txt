@@ -48,6 +48,13 @@ CPMAddPackage(
 	VERSION 1.3.0
 )
 
+# Add package: shoejunk/math
+CPMAddPackage(
+	NAME math
+	GITHUB_REPOSITORY shoejunk/math
+	VERSION 4.9.0
+)
+
 CPMAddPackage(NAME collide SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/..)
 
 # ---- Create standalone executable ----
@@ -58,5 +65,5 @@ add_executable(${PROJECT_NAME} ${sources})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 23 OUTPUT_NAME "collide")
 
-target_link_libraries(${PROJECT_NAME} collide cxxopts sfml-graphics sfml-window sprite log)
+target_link_libraries(${PROJECT_NAME} collide cxxopts sfml-graphics sfml-window sprite log math)
 file(COPY data DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
