@@ -38,21 +38,24 @@ CPMAddPackage(
 CPMAddPackage(
 	NAME sprite
 	GITHUB_REPOSITORY shoejunk/sprite
-	VERSION 0.2.0
+	#VERSION 0.2.0
+	GIT_TAG main
 )
 
 # Add package: shoejunk/log
 CPMAddPackage(
 	NAME log
 	GITHUB_REPOSITORY shoejunk/log
-	VERSION 1.3.0
+	#VERSION 1.3.0
+	GIT_TAG main
 )
 
 # Add package: shoejunk/math
 CPMAddPackage(
 	NAME math
 	GITHUB_REPOSITORY shoejunk/math
-	VERSION 4.9.0
+	#VERSION 4.9.0
+	GIT_TAG main
 )
 
 CPMAddPackage(NAME collide SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/..)

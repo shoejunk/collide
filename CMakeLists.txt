@@ -42,7 +42,8 @@ CPMAddPackage(
 CPMAddPackage(
 	NAME math
 	GITHUB_REPOSITORY shoejunk/math
-	VERSION 4.9.0
+	#VERSION 4.9.0
+	GIT_TAG main
 )
 
 # ---- Add source files ----
