@@ -40,7 +40,7 @@ namespace stk
 			}
 		}
 
-		c_collision_mask(sf::Image const&& image, c_vec2i margin_lo = { 0, 0 }, c_vec2i margin_hi = { 0, 0 })
+		c_collision_mask(sf::Image const&& image, c_vec2i margin_lo, c_vec2i margin_hi)
 			: m_mask((image.getSize().x - margin_lo.x() - margin_hi.x()) * (image.getSize().y - margin_hi.y() - margin_hi.y()))
 			, m_x_size(image.getSize().x - margin_lo.x() - margin_hi.x())
 			, m_y_size(image.getSize().y - margin_hi.y() - margin_hi.y())
