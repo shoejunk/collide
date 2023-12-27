@@ -72,18 +72,21 @@ namespace stk
 			m_mask = std::move(collision);
 		}
 
-		void from(sf::Image const& image)
+		void from(sf::Image const& image, uint16_t scale = 1)
 		{
 			auto image_size = image.getSize();
-			m_x_size = image_size.x;
-			m_y_size = image_size.y;
+			m_x_size = image_size.x * scale;
+			m_y_size = image_size.y * scale;
 			m_mask.resize(m_x_size * m_y_size);
+			uint16_t ox_size = image_size.x;
 			uint8_t const* pixels = image.getPixelsPtr();
 			for (uint16_t y = 0; y < m_y_size; ++y)
 			{
+				uint16_t oy = y / scale;
 				for (uint16_t x = 0; x < m_x_size; ++x)
 				{
-					uint8_t const* pixel = pixels + (y * m_x_size + x) * 4;
+					uint16_t ox = x / scale;
+					uint8_t const* pixel = pixels + (oy * ox_size + ox) * 4;
 					m_mask[y * m_x_size + x] = pixel[3] > 0;
 				}
 			}
