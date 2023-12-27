@@ -24,17 +24,20 @@ namespace stk
 		{
 		}
 
-		c_collision_mask(sf::Image const&& image)
-			: m_mask(image.getSize().x * image.getSize().y)
-			, m_x_size(image.getSize().x)
-			, m_y_size(image.getSize().y)
+		c_collision_mask(sf::Image const&& image, uint16_t scale = 1)
+			: m_mask(image.getSize().x * image.getSize().y * scale * scale)
+			, m_x_size(image.getSize().x * scale)
+			, m_y_size(image.getSize().y * scale)
 		{
+			uint16_t ox_size = image.getSize().x;
 			uint8_t const* pixels = image.getPixelsPtr();
 			for (uint16_t y = 0; y < m_y_size; ++y)
 			{
+				uint16_t oy = y / scale;
 				for (uint16_t x = 0; x < m_x_size; ++x)
 				{
-					uint8_t const* pixel = pixels + (y * m_x_size + x) * 4;
+					uint16_t ox = x / scale;
+					uint8_t const* pixel = pixels + (oy * ox_size + ox) * 4;
 					m_mask[y * m_x_size + x] = pixel[3] > 0;
 				}
 			}
