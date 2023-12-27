@@ -122,12 +122,12 @@ namespace stk
 
 		constexpr bool overlaps(c_collision_mask const& other, c_vec2i offset = {0, 0}) const
 		{
-			for (int32_t y = 0; y < m_y_size; ++y)
+			for (auto y = 0; y < m_y_size; ++y)
 			{
-				for (int32_t x = 0; x < m_x_size; ++x)
+				for (auto x = 0; x < m_x_size; ++x)
 				{
-					int32_t ox = x - offset.x();
-					int32_t oy = y - offset.y();
+					auto ox = x - offset.x();
+					auto oy = y - offset.y();
 					if (ox < 0 || ox >= other.m_x_size || oy < 0 || oy >= other.m_y_size)
 					{
 						continue;
@@ -144,9 +144,9 @@ namespace stk
 		constexpr c_collision_mask rotate(c_rot rot) const
 		{
 			c_collision_mask result = *this;
-			for (uint16_t y = 0; y < m_y_size; ++y)
+			for (auto y = 0; y < m_y_size; ++y)
 			{
-				for (uint16_t x = 0; x < m_x_size; ++x)
+				for (auto x = 0; x < m_x_size; ++x)
 				{
 					c_vec2i rotated = rot.rot(c_vec2i{ x, y });
 					if (rotated.x() < 0)
@@ -165,7 +165,7 @@ namespace stk
 
 	private:
 		std::vector<bool> m_mask;
-		uint16_t m_x_size;
-		uint16_t m_y_size;
+		uint32_t m_x_size;
+		uint32_t m_y_size;
 	};
 }
