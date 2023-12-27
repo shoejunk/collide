@@ -15,6 +15,7 @@ namespace stk
 		constexpr c_collision_mask()
 			: m_x_size(0)
 			, m_y_size(0)
+			, m_scale(1)
 		{
 		}
 
@@ -22,6 +23,7 @@ namespace stk
 			: m_mask(x_size* y_size)
 			, m_x_size(x_size)
 			, m_y_size(y_size)
+			, m_scale(1)
 		{
 		}
 
@@ -29,6 +31,7 @@ namespace stk
 			: m_mask(image.getSize().x* image.getSize().y* scale* scale)
 			, m_x_size(image.getSize().x* scale)
 			, m_y_size(image.getSize().y* scale)
+			, m_scale(scale)
 		{
 			uint16_t ox_size = image.getSize().x;
 			uint8_t const* pixels = image.getPixelsPtr();
@@ -48,6 +51,7 @@ namespace stk
 			: m_mask((image.getSize().x - margin_lo.x() - margin_hi.x())* (image.getSize().y - margin_hi.y() - margin_hi.y()))
 			, m_x_size(image.getSize().x - margin_lo.x() - margin_hi.x())
 			, m_y_size(image.getSize().y - margin_hi.y() - margin_hi.y())
+			, m_scale(1)
 		{
 			uint8_t const* pixels = image.getPixelsPtr();
 			for (uint16_t y = 0; y < m_y_size; ++y)
@@ -66,6 +70,7 @@ namespace stk
 		}
 
 		constexpr c_collision_mask(std::vector<bool> const&& collision, uint16_t x_size, uint16_t y_size)
+			: m_scale(1)
 		{
 			//assert(collision.size() == x_size * y_size);
 			m_x_size = x_size;
@@ -76,8 +81,9 @@ namespace stk
 		void from(sf::Image const& image, uint16_t scale = 1)
 		{
 			auto image_size = image.getSize();
-			m_x_size = image_size.x * scale;
-			m_y_size = image_size.y * scale;
+			m_x_size = image_size.x;
+			m_y_size = image_size.y;
+			m_scale = scale;
 			try
 			{
 				m_mask.resize(m_x_size * m_y_size);
@@ -98,15 +104,12 @@ namespace stk
 			{
 				errorln("c_collision_mask::from unknown exception");
 			}
-			uint16_t ox_size = image_size.x;
 			uint8_t const* pixels = image.getPixelsPtr();
 			for (uint16_t y = 0; y < m_y_size; ++y)
 			{
-				uint16_t oy = y / scale;
 				for (uint16_t x = 0; x < m_x_size; ++x)
 				{
-					uint16_t ox = x / scale;
-					uint8_t const* pixel = pixels + (oy * ox_size + ox) * 4;
+					uint8_t const* pixel = pixels + (y * m_x_size + x) * 4;
 					m_mask[y * m_x_size + x] = pixel[3] > 0;
 				}
 			}
@@ -185,7 +188,8 @@ namespace stk
 
 	private:
 		std::vector<bool> m_mask;
-		uint32_t m_x_size;
-		uint32_t m_y_size;
+		uint16_t m_x_size;
+		uint16_t m_y_size;
+		uint16_t m_scale;
 	};
 }
