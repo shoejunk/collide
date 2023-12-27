@@ -91,18 +91,22 @@ namespace stk
 			catch (std::bad_alloc const& e)
 			{
 				errorln("c_collision_mask::from bad alloc: {}", e.what());
+				return;
 			}
 			catch (std::length_error const& e)
 			{
 				errorln("c_collision_mask::from length error: {}", e.what());
+				return;
 			}
 			catch (std::exception const& e)
 			{
 				errorln("c_collision_mask::from exception: {}", e.what());
+				return;
 			}
 			catch (...)
 			{
 				errorln("c_collision_mask::from unknown exception");
+				return;
 			}
 			uint8_t const* pixels = image.getPixelsPtr();
 			for (uint16_t y = 0; y < m_y_size; ++y)
@@ -145,6 +149,8 @@ namespace stk
 
 		constexpr bool overlaps(c_collision_mask const& other, c_vec2i offset = { 0, 0 }) const
 		{
+			offset.x() /= m_scale;
+			offset.y() /= m_scale;
 			for (auto y = 0; y < m_y_size; ++y)
 			{
 				for (auto x = 0; x < m_x_size; ++x)
