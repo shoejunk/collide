@@ -1,6 +1,7 @@
 export module stk.collide;
 
 import <SFML/Graphics.hpp>;
+import stk.log;
 import stk.math;
 import <cassert>;
 
@@ -18,16 +19,16 @@ namespace stk
 		}
 
 		constexpr c_collision_mask(uint16_t x_size, uint16_t y_size)
-			: m_mask(x_size * y_size)
+			: m_mask(x_size* y_size)
 			, m_x_size(x_size)
 			, m_y_size(y_size)
 		{
 		}
 
 		c_collision_mask(sf::Image const&& image, uint16_t scale = 1)
-			: m_mask(image.getSize().x * image.getSize().y * scale * scale)
-			, m_x_size(image.getSize().x * scale)
-			, m_y_size(image.getSize().y * scale)
+			: m_mask(image.getSize().x* image.getSize().y* scale* scale)
+			, m_x_size(image.getSize().x* scale)
+			, m_y_size(image.getSize().y* scale)
 		{
 			uint16_t ox_size = image.getSize().x;
 			uint8_t const* pixels = image.getPixelsPtr();
@@ -44,7 +45,7 @@ namespace stk
 		}
 
 		c_collision_mask(sf::Image const&& image, c_vec2i margin_lo, c_vec2i margin_hi)
-			: m_mask((image.getSize().x - margin_lo.x() - margin_hi.x()) * (image.getSize().y - margin_hi.y() - margin_hi.y()))
+			: m_mask((image.getSize().x - margin_lo.x() - margin_hi.x())* (image.getSize().y - margin_hi.y() - margin_hi.y()))
 			, m_x_size(image.getSize().x - margin_lo.x() - margin_hi.x())
 			, m_y_size(image.getSize().y - margin_hi.y() - margin_hi.y())
 		{
@@ -77,7 +78,26 @@ namespace stk
 			auto image_size = image.getSize();
 			m_x_size = image_size.x * scale;
 			m_y_size = image_size.y * scale;
-			m_mask.resize(m_x_size * m_y_size);
+			try
+			{
+				m_mask.resize(m_x_size * m_y_size);
+			}
+			catch (std::bad_alloc const& e)
+			{
+				errorln("c_collision_mask::from bad alloc: {}", e.what());
+			}
+			catch (std::length_error const& e)
+			{
+				errorln("c_collision_mask::from length error: {}", e.what());
+			}
+			catch (std::exception const& e)
+			{
+				errorln("c_collision_mask::from exception: {}", e.what());
+			}
+			catch (...)
+			{
+				errorln("c_collision_mask::from unknown exception");
+			}
 			uint16_t ox_size = image_size.x;
 			uint8_t const* pixels = image.getPixelsPtr();
 			for (uint16_t y = 0; y < m_y_size; ++y)
@@ -120,7 +140,7 @@ namespace stk
 			m_mask[xy.y() * m_x_size + xy.x()] = value;
 		}
 
-		constexpr bool overlaps(c_collision_mask const& other, c_vec2i offset = {0, 0}) const
+		constexpr bool overlaps(c_collision_mask const& other, c_vec2i offset = { 0, 0 }) const
 		{
 			for (auto y = 0; y < m_y_size; ++y)
 			{

@@ -38,6 +38,14 @@ CPMAddPackage(
 		"SFML_BUILD_WINDOW YES"
 )
 
+# Add package: shoejunk/log
+CPMAddPackage(
+	NAME log
+	GITHUB_REPOSITORY shoejunk/log
+	#VERSION
+	GIT_TAG main
+)
+
 # Add package: shoejunk/math
 CPMAddPackage(
 	NAME math
@@ -64,7 +72,7 @@ target_include_directories(
                          $<INSTALL_INTERFACE:include/${PROJECT_NAME}-${PROJECT_VERSION}>
 )
 
-target_link_libraries(${PROJECT_NAME} sfml-graphics sfml-window math)
+target_link_libraries(${PROJECT_NAME} sfml-graphics sfml-window log math)
 
 # the location where the project's version header will be placed should match the project's regular
 # header paths
