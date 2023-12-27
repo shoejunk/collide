@@ -173,7 +173,7 @@ namespace stk
 		constexpr c_collision_mask rotate(c_rot rot) const
 		{
 			c_collision_mask result = *this;
-			result.clear();
+			result.m_mask.clear();
 			for (auto y = 0; y < m_y_size; ++y)
 			{
 				for (auto x = 0; x < m_x_size; ++x)
