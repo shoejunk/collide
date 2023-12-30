@@ -174,11 +174,12 @@ namespace stk
 		{
 			c_collision_mask result = *this;
 			std::fill(result.m_mask.begin(), result.m_mask.end(), false);
+			c_vec2f center = { static_cast<float>(m_x_size - 1) * 0.5f, static_cast<float>(m_y_size - 1) * 0.5f };
 			for (auto y = 0; y < m_y_size; ++y)
 			{
 				for (auto x = 0; x < m_x_size; ++x)
 				{
-					c_vec2i rotated = rot.rot(c_vec2i{ x, y });
+					c_vec2i rotated = rot.rot(c_vec2f{ static_cast<float>(x), static_cast<float>(y) } - center) + center;
 					if (rotated.x() < 0)
 					{
 						continue;

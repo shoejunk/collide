@@ -28,6 +28,14 @@ int main()
 	// collision and collision4 should not overlap
 	assert(!collision.overlaps(collision4));
 
+	// collision3 and collision4 should overlap
+	assert(collision3.overlaps(collision4));
+
+	c_collision_mask collision5(std::vector<bool>{ false, true, false, true }, 2, 2);
+
+	// collision4 and collision5 should overlap
+	assert(collision4.overlaps(collision5));
+
 	c_sprite_bank sprites;
 	sf::Sprite* rocket_sprite = sprites.make_sprite("rocket"_h, "data/rocket_small.png", 300, 300);
 	if (rocket_sprite == nullptr)
