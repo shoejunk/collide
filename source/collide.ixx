@@ -127,23 +127,22 @@ namespace stk
 			m_mask = std::move(collision);
 		}
 
-		sf::Image to_image() const
+		void to_image(sf::Image& image) const
 		{
-			sf::Image image;
 			image.create(m_x_size, m_y_size);
 			for (uint16_t y = 0; y < m_y_size; ++y)
 			{
 				for (uint16_t x = 0; x < m_x_size; ++x)
 				{
 					sf::Color color;
-					color.r = 255;
-					color.g = 255;
-					color.b = 255;
-					color.a = get(x, y) ? 255 : 0;
+					uint8_t c = get(x, y) ? 255 : 0;
+					color.r = c;
+					color.g = c;
+					color.b = c;
+					color.a = c;
 					image.setPixel(x, y, color);
 				}
 			}
-			return image;
 		}
 
 		constexpr bool get(uint16_t x, uint16_t y) const
