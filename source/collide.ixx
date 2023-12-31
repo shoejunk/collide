@@ -170,7 +170,7 @@ namespace stk
 			return false;
 		}
 
-		constexpr c_collision_mask rotate(c_rot rot) const
+		constexpr c_collision_mask rotate(c_angle rot) const
 		{
 			c_collision_mask result = *this;
 			std::fill(result.m_mask.begin(), result.m_mask.end(), false);
